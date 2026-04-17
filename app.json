@@ -28,6 +28,9 @@
     "plugins": [
       "expo-router"
     ],
-    "host": "localhost"
+    "host": "localhost",
+    "experiments": {
+      "typedRoutes": true
+  }
   }
 }

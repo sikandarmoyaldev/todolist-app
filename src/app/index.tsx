@@ -1,8 +1,7 @@
 import { Plus } from "lucide-react-native";
-import { useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { toast } from "sonner-native"; // ✅ Import toast
+import { toast } from "sonner-native";
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
@@ -13,11 +12,9 @@ import { TodoForm } from "@/features/todo/components/todo-form";
 import { TodoList } from "@/features/todo/components/todo-list";
 
 import { useTodos } from "@/features/todo/hooks/use-todos";
-import type { Todo } from "@/features/todo/types";
 
 export default function HomeScreen() {
     const { todos, isLoading, error, addTodo, updateTodo, toggleTodo, deleteTodo } = useTodos();
-    const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
     if (isLoading) {
         return (
@@ -43,17 +40,17 @@ export default function HomeScreen() {
         <SafeAreaView className="flex-1 bg-background">
             <Navbar title="TodoList" />
 
-            {/* Add Form */}
+            {/* ✅ Add Form (uncontrolled) */}
             <View className="px-4 py-2">
                 <TodoForm
                     dialogTitle="Add Task"
                     dialogDescription="Enter a title for your new todo"
-                    onSubmit={async (title) => {
+                    onSubmit={async (title: string) => {
                         try {
                             await addTodo(title);
-                            toast.success("Task added"); // ✅ Success toast
+                            toast.success("Task added");
                         } catch {
-                            toast.error("Failed to add task"); // ✅ Error toast
+                            toast.error("Failed to add task");
                         }
                     }}
                     trigger={
@@ -65,36 +62,23 @@ export default function HomeScreen() {
                 />
             </View>
 
-            {/* Edit Form */}
-            <TodoForm
-                dialogTitle="Edit Task"
-                dialogDescription="Update the task title below"
-                defaultTitle={editingTodo?.title ?? ""}
-                open={!!editingTodo}
-                onOpenChange={(open) => {
-                    if (!open) setEditingTodo(null);
-                }}
-                onSubmit={async (newTitle) => {
-                    if (editingTodo) {
-                        try {
-                            await updateTodo(editingTodo.id, { title: newTitle });
-                            toast.success("Task updated");
-                            setEditingTodo(null);
-                        } catch {
-                            toast.error("Failed to update task");
-                        }
-                    }
-                }}
-                trigger={<></>}
-            />
-
-            {/* Todo List */}
+            {/* ✅ Todo List handles edit/delete internally */}
             <View className="flex-1">
                 <TodoList
                     todos={todos}
                     onToggle={toggleTodo}
-                    onDelete={deleteTodo}
-                    onEdit={setEditingTodo}
+                    onDelete={(id) => {
+                        deleteTodo(id);
+                        toast.success("Task deleted");
+                    }}
+                    onUpdate={async (id, newTitle) => {
+                        try {
+                            await updateTodo(id, { title: newTitle });
+                            toast.success("Task updated");
+                        } catch {
+                            toast.error("Failed to update task");
+                        }
+                    }}
                 />
             </View>
         </SafeAreaView>

@@ -1,7 +1,6 @@
 import { Pencil, Trash2 } from "lucide-react-native";
 import { useState } from "react";
 import { View } from "react-native";
-import { toast } from "sonner-native";
 
 import {
     AlertDialog,
@@ -19,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Icon } from "@/components/ui/icon";
 import { Separator } from "@/components/ui/separator";
 import { Text } from "@/components/ui/text";
+import { TodoForm } from "./todo-form";
 
 import type { Todo } from "../types";
 
@@ -26,7 +26,7 @@ interface TodoListProps {
     todos: Todo[];
     onToggle?: (id: string) => void;
     onDelete?: (id: string) => void;
-    onEdit?: (todo: Todo) => void;
+    onUpdate?: (id: string, newTitle: string) => Promise<void>;
     emptyMessage?: string;
 }
 
@@ -34,7 +34,7 @@ export function TodoList({
     todos,
     onToggle,
     onDelete,
-    onEdit,
+    onUpdate,
     emptyMessage = "No todos yet. Add one to get started!",
 }: TodoListProps) {
     const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
@@ -73,17 +73,30 @@ export function TodoList({
                                 </Text>
                             </View>
                             <View className="flex-row">
-                                {onEdit && (
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onPress={() => onEdit(todo)}
-                                        aria-label={`Edit "${todo.title}"`}
-                                    >
-                                        <Icon as={Pencil} className="text-foreground" size={18} />
-                                    </Button>
-                                )}
-                                {/* ✅ Trash triggers local state → opens AlertDialog */}
+                                {/* ✅ Edit: TodoForm triggered directly, no external state */}
+                                <TodoForm
+                                    dialogTitle="Edit Task"
+                                    dialogDescription="Update the task title below"
+                                    defaultTitle={todo.title}
+                                    onSubmit={async (newTitle: string) => {
+                                        await onUpdate?.(todo.id, newTitle);
+                                    }}
+                                    trigger={
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            aria-label={`Edit "${todo.title}"`}
+                                        >
+                                            <Icon
+                                                as={Pencil}
+                                                className="text-foreground"
+                                                size={18}
+                                            />
+                                        </Button>
+                                    }
+                                />
+
+                                {/* ✅ Delete: local alert dialog */}
                                 <Button
                                     variant="ghost"
                                     size="icon"
@@ -98,10 +111,10 @@ export function TodoList({
                 </CardContent>
             </Card>
 
-            {/* ✅ Controlled AlertDialog */}
+            {/* ✅ Delete Confirmation */}
             <AlertDialog
                 open={!!pendingDeleteId}
-                onOpenChange={(open: boolean) => !open && setPendingDeleteId(null)}
+                onOpenChange={(open) => !open && setPendingDeleteId(null)}
             >
                 <AlertDialogContent>
                     <AlertDialogHeader>
@@ -115,10 +128,8 @@ export function TodoList({
                             <Text>Cancel</Text>
                         </AlertDialogCancel>
                         <AlertDialogAction
-                            className="text-background bg-destructive"
                             onPress={() => {
                                 if (pendingDeleteId) onDelete?.(pendingDeleteId);
-                                toast.success("Task deleted"); // ✅ Delete toast
                                 setPendingDeleteId(null);
                             }}
                         >

@@ -1,4 +1,5 @@
 import { Plus } from "lucide-react-native";
+import { useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -11,9 +12,11 @@ import { TodoForm } from "@/features/todo/components/todo-form";
 import { TodoList } from "@/features/todo/components/todo-list";
 
 import { useTodos } from "@/features/todo/hooks/use-todos";
+import type { Todo } from "@/features/todo/types";
 
 export default function HomeScreen() {
-    const { todos, isLoading, error, addTodo, toggleTodo, deleteTodo } = useTodos();
+    const { todos, isLoading, error, addTodo, updateTodo, toggleTodo, deleteTodo } = useTodos();
+    const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
     if (isLoading) {
         return (
@@ -39,6 +42,7 @@ export default function HomeScreen() {
         <SafeAreaView className="flex-1 bg-background">
             <Navbar title="TodoList" />
 
+            {/* Add Form (uncontrolled) */}
             <View className="px-4 py-2">
                 <TodoForm
                     dialogTitle="Add Task"
@@ -53,8 +57,32 @@ export default function HomeScreen() {
                 />
             </View>
 
+            {/* Edit Form (controlled) */}
+            <TodoForm
+                dialogTitle="Edit Task"
+                dialogDescription="Update the task title below"
+                defaultTitle={editingTodo?.title ?? ""}
+                open={!!editingTodo}
+                onOpenChange={(open) => {
+                    if (!open) setEditingTodo(null);
+                }}
+                onSubmit={async (newTitle) => {
+                    if (editingTodo) {
+                        await updateTodo(editingTodo.id, { title: newTitle });
+                        setEditingTodo(null);
+                    }
+                }}
+                trigger={<></>}
+            />
+
+            {/* Todo List */}
             <View className="flex-1">
-                <TodoList todos={todos} onToggle={toggleTodo} onDelete={deleteTodo} />
+                <TodoList
+                    todos={todos}
+                    onToggle={toggleTodo}
+                    onDelete={deleteTodo}
+                    onEdit={setEditingTodo}
+                />
             </View>
         </SafeAreaView>
     );

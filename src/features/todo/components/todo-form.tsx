@@ -18,6 +18,8 @@ interface TodoFormProps {
     defaultTitle?: string;
     dialogTitle?: string;
     dialogDescription?: string;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
     onSubmit: (title: string) => Promise<void>;
 }
 
@@ -26,11 +28,17 @@ export function TodoForm({
     defaultTitle = "",
     dialogTitle = "New Todo",
     dialogDescription,
+    open: controlledOpen,
+    onOpenChange: controlledOnOpenChange,
     onSubmit,
 }: TodoFormProps) {
-    const [open, setOpen] = useState(false);
+    const [internalOpen, setInternalOpen] = useState(false);
     const [title, setTitle] = useState(defaultTitle);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Controlled vs uncontrolled open state
+    const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
+    const setOpen = controlledOnOpenChange || setInternalOpen;
 
     const handleSubmit = async () => {
         if (!title.trim()) return;

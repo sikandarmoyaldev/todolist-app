@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react-native";
+import { Pencil, Trash2 } from "lucide-react-native";
 import { View } from "react-native";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ interface TodoListProps {
     todos: Todo[];
     onToggle?: (id: string) => void;
     onDelete?: (id: string) => void;
+    onEdit?: (todo: Todo) => void;
     emptyMessage?: string;
 }
 
@@ -21,6 +22,7 @@ export function TodoList({
     todos,
     onToggle,
     onDelete,
+    onEdit,
     emptyMessage = "No todos yet. Add one to get started!",
 }: TodoListProps) {
     if (todos.length === 0) {
@@ -55,17 +57,28 @@ export function TodoList({
                                 {todo.title}
                             </Text>
                         </View>
-                        {onDelete && (
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onPress={() => onDelete(todo.id)}
-                                className="p-2"
-                                aria-label={`Delete "${todo.title}"`}
-                            >
-                                <Icon as={Trash2} className="text-destructive" size={18} />
-                            </Button>
-                        )}
+                        <View className="flex-row">
+                            {onEdit && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onPress={() => onEdit(todo)}
+                                    aria-label={`Edit "${todo.title}"`}
+                                >
+                                    <Icon as={Pencil} className="text-foreground" size={18} />
+                                </Button>
+                            )}
+                            {onDelete && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onPress={() => onDelete(todo.id)}
+                                    aria-label={`Delete "${todo.title}"`}
+                                >
+                                    <Icon as={Trash2} className="text-destructive" size={18} />
+                                </Button>
+                            )}
+                        </View>
                     </View>
                 ))}
             </CardContent>

@@ -60,25 +60,21 @@ export function TodoForm({
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle className="text-foreground text-xl font-semibold">
-                        {dialogTitle}
-                    </DialogTitle>
+                    <DialogTitle>{dialogTitle}</DialogTitle>
                     {dialogDescription && (
-                        <DialogDescription className="text-muted-foreground">
-                            {dialogDescription}
-                        </DialogDescription>
+                        <DialogDescription>{dialogDescription}</DialogDescription>
                     )}
                 </DialogHeader>
-                <View className="gap-4 py-4">
+                <View className="gap-4">
                     <Input
                         placeholder="What needs to be done?"
                         value={title}
                         onChangeText={setTitle}
                         className="bg-background text-foreground border-border"
                     />
-                    <View className="flex-row justify-end gap-2">
-                        <Button variant="ghost" onPress={() => setOpen(false)}>
-                            <Text className="text-muted-foreground">Cancel</Text>
+                    <View className="grid grid-cols-2 gap-2">
+                        <Button variant="outline" onPress={() => setOpen(false)}>
+                            <Text>Cancel</Text>
                         </Button>
                         <Button onPress={handleSubmit} disabled={isSubmitting || !title.trim()}>
                             <Text className="text-primary-foreground">

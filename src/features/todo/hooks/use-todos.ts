@@ -33,7 +33,7 @@ export function useTodos() {
     const handleAdd = useCallback(async (title: string) => {
         if (!title.trim()) return;
         const newTodo: Todo = {
-            id: crypto.randomUUID(),
+            id: Date.now().toString(),
             title: title.trim(),
             completed: false,
             createdAt: Date.now(),

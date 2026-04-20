@@ -34,14 +34,12 @@ export function TodoList({
     return (
         <Card className="mx-4 my-2">
             <CardHeader className="py-0">
-                <CardTitle className="text-foreground text-lg font-semibold">
-                    Your Tasks ({todos.length})
-                </CardTitle>
+                <CardTitle>Your Tasks ({todos.length})</CardTitle>
             </CardHeader>
             <Separator className="bg-border" />
             <CardContent className="p-0">
                 {todos.map((todo) => (
-                    <View key={todo.id} className="flex-row items-center px-4 py-3 gap-3">
+                    <View key={todo.id} className="flex-row items-center px-4 gap-2">
                         <Checkbox
                             checked={todo.completed}
                             onCheckedChange={() => onToggle?.(todo.id)}

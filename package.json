@@ -15,6 +15,7 @@
         "android": "expo start --android"
     },
     "dependencies": {
+        "@react-native-async-storage/async-storage": "2.2.0",
         "@rn-primitives/checkbox": "^1.4.0",
         "@rn-primitives/portal": "^1.4.0",
         "@rn-primitives/separator": "^1.4.0",

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View } from "react-native";
+import { useWindowDimensions, View } from "react-native";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,11 +32,11 @@ export function TodoForm({
     onOpenChange: controlledOnOpenChange,
     onSubmit,
 }: TodoFormProps) {
+    const { width: screenWidth } = useWindowDimensions();
     const [internalOpen, setInternalOpen] = useState(false);
     const [title, setTitle] = useState(defaultTitle);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    // Controlled vs uncontrolled open state
     const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
     const setOpen = controlledOnOpenChange || setInternalOpen;
 
@@ -66,7 +66,8 @@ export function TodoForm({
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent>
+            {/* ✅ Responsive width: screen width - 4px total margin */}
+            <DialogContent style={{ width: screenWidth - 15 }}>
                 <DialogHeader>
                     <DialogTitle>{dialogTitle}</DialogTitle>
                     {dialogDescription && (

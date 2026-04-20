@@ -1,5 +1,7 @@
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { Navbar } from "@/components/navbar";
 import { TodoList } from "@/features/todo/components/todo-list";
 import type { Todo } from "@/features/todo/types";
 
@@ -14,9 +16,14 @@ export default function HomeScreen() {
     };
 
     return (
-        // ✅ SafeAreaView handles status bar, notch, gesture areas automatically
         <SafeAreaView className="flex-1 bg-background">
-            <TodoList todos={todos} onToggle={handleToggle} />
+            {/* ✅ Navbar at top */}
+            <Navbar title="TodoList" />
+
+            {/* ✅ Content below navbar */}
+            <View className="flex-1">
+                <TodoList todos={todos} onToggle={handleToggle} />
+            </View>
         </SafeAreaView>
     );
 }

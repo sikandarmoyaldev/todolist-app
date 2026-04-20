@@ -2,6 +2,42 @@
 
 A clean, offline-first todo application built with React Native, Expo, and shadcn/ui primitives. Persist your tasks locally with a polished UI that just works.
 
+## 📸 Screenshots
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; align-items: flex-start;">
+
+<div style="flex: 0 0 200px; text-align: center;">
+  <img src="./screenshots/home.png" width="200" alt="Home Screen" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/><br>
+  <strong>Home Screen</strong><br>
+  <em style="font-size: 12px; color: #666;">Task list with add/edit/delete</em>
+</div>
+
+<div style="flex: 0 0 200px; text-align: center;">
+  <img src="./screenshots/home-dark.png" width="200" alt="Home Dark Mode" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/><br>
+  <strong>Dark Mode</strong><br>
+  <em style="font-size: 12px; color: #666;">Auto-adapts to system theme</em>
+</div>
+
+<div style="flex: 0 0 200px; text-align: center;">
+  <img src="./screenshots/add-todo-dialog.png" width="200" alt="Add Todo Dialog" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/><br>
+  <strong>Add Task</strong><br>
+  <em style="font-size: 12px; color: #666;">Quick dialog with validation</em>
+</div>
+
+<div style="flex: 0 0 200px; text-align: center;">
+  <img src="./screenshots/edit-todo-dialog.png" width="200" alt="Edit Todo Dialog" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/><br>
+  <strong>Edit Task</strong><br>
+  <em style="font-size: 12px; color: #666;">Inline title modification</em>
+</div>
+
+<div style="flex: 0 0 200px; text-align: center;">
+  <img src="./screenshots/delete-todo-dialog.png" width="200" alt="Delete Todo Dialog" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"/><br>
+  <strong>Delete Confirmation</strong><br>
+  <em style="font-size: 12px; color: #666;">Prevents accidental removal</em>
+</div>
+
+</div>
+
 ## ✨ Features
 
 ### ✅ Implemented

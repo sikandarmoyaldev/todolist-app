@@ -1,36 +1,22 @@
-// src/app/index.tsx
-import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
-import { View } from "react-native";
-// 1. Import useColorScheme from nativewind
-import { useColorScheme } from "nativewind";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { TodoList } from "@/features/todo/components/todo-list";
+import type { Todo } from "@/features/todo/types";
 
 export default function HomeScreen() {
-    // 2. Use the nativewind hook instead of local state + Appearance
-    const { colorScheme, setColorScheme } = useColorScheme();
-    const isDark = colorScheme === "dark";
+    const todos: Todo[] = [
+        { id: "1", title: "Buy groceries", completed: false, createdAt: Date.now() },
+        { id: "2", title: "Walk the dog", completed: true, createdAt: Date.now() - 3600000 },
+    ];
 
-    const toggleTheme = () => {
-        const next = isDark ? "light" : "dark";
-        // 3. This updates both the UI classes and the internal theme state
-        setColorScheme(next);
+    const handleToggle = (id: string) => {
+        console.log("Toggle todo:", id);
     };
 
     return (
-        <View className="flex-1 bg-background justify-center items-center p-6 gap-4">
-            <Text variant="h1" className="text-foreground text-center text-3xl font-bold">
-                {isDark ? "🌙 Dark Mode" : "☀️ Light Mode"}
-            </Text>
-
-            <Text className="text-muted-foreground text-center">
-                Background, text, and navigation theme will switch instantly.
-            </Text>
-
-            <Button onPress={toggleTheme} className="mt-4 bg-primary">
-                <Text className="text-primary-foreground font-semibold">
-                    {isDark ? "Switch to Light" : "Switch to Dark"}
-                </Text>
-            </Button>
-        </View>
+        // ✅ SafeAreaView handles status bar, notch, gesture areas automatically
+        <SafeAreaView className="flex-1 bg-background">
+            <TodoList todos={todos} onToggle={handleToggle} />
+        </SafeAreaView>
     );
 }

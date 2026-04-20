@@ -15,7 +15,9 @@
         "android": "expo start --android"
     },
     "dependencies": {
+        "@rn-primitives/checkbox": "^1.4.0",
         "@rn-primitives/portal": "^1.4.0",
+        "@rn-primitives/separator": "^1.4.0",
         "@rn-primitives/slot": "^1.4.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
